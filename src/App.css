@@ -1,37 +1,41 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
-
-/* App.css */
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.app {
-  background-color: #fff;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 600px;
-  width: 100%;
-}
-
-h1 {
+.App {
   text-align: center;
-  color: #333;
+  font-family: Arial, sans-serif;
 }
 
-p {
-  font-size: 18px;
-  line-height: 1.5;
-  color: #555;
+.App-header {
+  background-color: #f2f4f6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.welcome-text {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: black; /* Set the color for the welcome text */
+}
+
+.question-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+  text-align: left;
+  margin-bottom: 20px;
+  color: black; /* Set the color for questions */
+}
+
+.question h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
 ul {
@@ -40,13 +44,45 @@ ul {
 }
 
 li {
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  margin: 5px 0;
+  margin-bottom: 10px;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
   cursor: pointer;
 }
 
-li:hover {
-  background-color: #ddd;
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
+
+/* Style the Submit button
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+} */

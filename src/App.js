@@ -1,71 +1,112 @@
-import React, { useEffect, useState } from 'react';
-import './App.css'; 
+import React, { useState, useEffect } from 'react';
+import './App.css';
 
-const App = () => {
+function App() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
 
   useEffect(() => {
-    fetch(
-      'https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple&encode=url3986'
-    )
+    fetch('http://localhost:8080/question/allQuestions')
       .then((response) => response.json())
-      .then((data) => {
-        // Extract the questions from the API response
-        setQuestions(data.results);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+      .then((data) => setQuestions(data))
+      .catch((error) => console.error('Error fetching questions:', error));
   }, []);
 
-  const handleAnswerClick = (selectedOption) => {
-    if (decodeURIComponent(selectedOption) === questions[currentQuestion].correct_answer) {
-      // Increase the score if the answer is correct
-      setScore(score + 1);
+  const handleNextQuestion = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
     }
-
-    // Move to the next question
-    setCurrentQuestion(currentQuestion + 1);
   };
 
-  const renderQuiz = () => {
-    if (currentQuestion >= questions.length) {
-      // Display quiz results when all questions are answered
-      return (
-        <div>
-          <h2>Quiz Completed!</h2>
-          <p>Your Score: {score} / {questions.length}</p>
-        </div>
-      );
-    } else {
-      const currentQues = questions[currentQuestion];
-      return (
-        <div>
-          <h2>Question {currentQuestion + 1}</h2>
-          <p>{decodeURIComponent(currentQues.question)}</p>
-          <ul>
-            {currentQues.incorrect_answers.map((option, index) => (
-              <li key={index} onClick={() => handleAnswerClick(option)}>
-                {decodeURIComponent(option)}
-              </li>
-            ))}
-            <li key="correct" onClick={() => handleAnswerClick(currentQues.correct_answer)}>
-              {decodeURIComponent(currentQues.correct_answer)}
-            </li>
-          </ul>
-        </div>
-      );
+  const handlePreviousQuestion = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
     }
+  };
+
+  const handleReset = () => {
+    setCurrentQuestion(0);
   };
 
   return (
-    <div className="app">
-      <h1>Quiz App</h1>
-      {questions.length === 0 ? <p>Loading...</p> : renderQuiz()}
+    <div className="App">
+      <header className="App-header">
+        <h1 className="welcome-text">Quiz App</h1>
+        <div className="question-container">
+          {questions.length > 0 ? (
+            <div className="question">
+              <h2>{questions[currentQuestion].questionTitle}</h2>
+              <ul>
+                <li>
+                  <input
+                    type="radio"
+                    name="answer"
+                    id="option1"
+                    value={questions[currentQuestion].option1}
+                  />
+                  <label htmlFor="option1">
+                    {questions[currentQuestion].option1}
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    name="answer"
+                    id="option2"
+                    value={questions[currentQuestion].option2}
+                  />
+                  <label htmlFor="option2">
+                    {questions[currentQuestion].option2}
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    name="answer"
+                    id="option3"
+                    value={questions[currentQuestion].option3}
+                  />
+                  <label htmlFor="option3">
+                    {questions[currentQuestion].option3}
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    name="answer"
+                    id="option4"
+                    value={questions[currentQuestion].option4}
+                  />
+                  <label htmlFor="option4">
+                    {questions[currentQuestion].option4}
+                  </label>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <p>Loading questions...</p>
+          )}
+
+          <div className="button-container">
+            <button
+              onClick={handlePreviousQuestion}
+              disabled={currentQuestion === 0}
+            >
+              Previous
+            </button>
+            <button onClick={SubmitEvent}>Submit</button>
+            <button onClick={handleReset}>Reset</button>
+            <button
+              onClick={handleNextQuestion}
+              disabled={currentQuestion === questions.length - 1}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </header>
     </div>
   );
-};
+}
 
 export default App;
